@@ -31,7 +31,8 @@
 
 # Configure Tomcat to use certificate:
 * Edit conf/server.xml adding:
-    <Connector port="9443" protocol="HTTP/1.1"
+```xml
+	<Connector port="9443" protocol="HTTP/1.1"
                 connectionTimeout="20000"
                 redirectPort="9443"
                 SSLEnabled="true"
@@ -42,6 +43,8 @@
                 truststoreFile="/home/acanada/etc/ssl/rdconnect_demo_CA/tomcat-server.jks"
                 keystorePass="changeit" />
 
+```
+    
 # Maven Overlay Installation
 * Clone git project with the simple overlay template here
 * Execute inside the project folder:  mvn clean package
@@ -49,7 +52,11 @@
 * Copy etc/* directory to /etc/cas
 
 * If you don’t have any applications running in the 8080 port, you can comment out the lines inside $CATALINA_BASE/conf/server.xml:
-<Connector port="8080" protocol="HTTP/1.1"
+```xml
+	<Connector port="8080" protocol="HTTP/1.1"
 	connectionTimeout="20000"
         redirectPort="9443" />
+
+
+```
 (In order to restrict the traffic only to secure ports)
