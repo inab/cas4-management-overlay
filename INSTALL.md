@@ -6,7 +6,7 @@
 * Config DNS giving server a name (rdconnectcas.rd-connect.eu). In our case server hostname is rdconnectcas. In client machine we added an entry for rdconnectcas.rd-connect.eu in /etc/hosts
 
 
-* Certificates (Ubuntu):
+# Certificates (Ubuntu):
 
 * Create CA. We used tinyca2, generating a CA inside rdconnect_demo_CA folder (this is the name given inside the Name (for local storag) parameter during the CA creation).
 * Move .TinyCA/rdconnect_demo_CA to /etc/ssl
@@ -29,7 +29,7 @@
 * keytool -list -v -keystore tomcat-server.jks -storepass changeit
 
 
-* Configure Tomcat to use certificate:
+# Configure Tomcat to use certificate:
 * Edit conf/server.xml adding:
     <Connector port="9443" protocol="HTTP/1.1"
                 connectionTimeout="20000"
@@ -42,7 +42,7 @@
                 truststoreFile="/home/acanada/etc/ssl/rdconnect_demo_CA/tomcat-server.jks"
                 keystorePass="changeit" />
 
-* Maven Overlay Installation
+# Maven Overlay Installation
 * Clone git project with the simple overlay template here
 * Execute inside the project folder:  mvn clean package
 * Copy simple-cas-overlay-template/target/cas.war to $CATALINA_HOME/webapps/
