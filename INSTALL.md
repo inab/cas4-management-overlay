@@ -53,10 +53,10 @@
 
 * If you don’t have any applications running in the 8080 port, you can comment out the lines inside $CATALINA_BASE/conf/server.xml:
 ```xml
-	<Connector port="8080" protocol="HTTP/1.1"
+	<!-- <Connector port="8080" protocol="HTTP/1.1"
 	connectionTimeout="20000"
         redirectPort="9443" />
-
+	-->
 
 ```
 (In order to restrict the traffic only to secure ports)
