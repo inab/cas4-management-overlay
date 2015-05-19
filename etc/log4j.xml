@@ -13,7 +13,16 @@
     </appender>
 
     <appender name="cas" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/var/log/cas/cas.log" />
+        <param name="File" value="${cas.log.dir}/cas.log" />
+        <param name="MaxFileSize" value="512KB" />
+        <param name="MaxBackupIndex" value="3" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%c] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="spring" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="${cas.log.dir}/spring.log" />
         <param name="MaxFileSize" value="512KB" />
         <param name="MaxBackupIndex" value="3" />
         <layout class="org.apache.log4j.PatternLayout">
@@ -29,10 +38,18 @@
     -->
     <logger name="org.springframework">
         <level value="WARN" />
+	<!--
+        <level value="DEBUG" />
+	-->
+        <appender-ref ref="spring" />
     </logger>
 
     <logger name="org.springframework.webflow">
         <level value="WARN" />
+	<!--
+        <level value="DEBUG" />
+	-->
+        <appender-ref ref="spring" />
     </logger>
 
     <logger name="org.jasig" additivity="true">
@@ -57,6 +74,9 @@
     -->
     <logger name="org.jasig.cas.web.flow" additivity="true">
         <level value="INFO" />
+	<!--
+        <level value="DEBUG" />
+	-->
         <appender-ref ref="cas" />
     </logger>
 

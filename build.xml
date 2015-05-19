@@ -28,7 +28,7 @@
 	<property name="catalina.home" value="${env.CATALINA_HOME}" />
 	<property name="tomcat.log.patterns" value="**/*.log, **/*.txt" />
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-	<property name="cas.resources.dir" value="/etc/cas" />
+	<property file="etc/cas.properties" />
 	
 	<!-- ******************* MAVEN PROPERTIES******************** -->
 	<condition property="mavenExecutableFile" value="mvn.bat" else="mvn">
@@ -70,13 +70,13 @@
 
 	<target name="clean" description="Clean deployed artifacts and logs">
 		<delete file="${catalina.home}/webapps/${ant.project.name}.war" verbose="false" failonerror="true" />
-		<delete file="${catalina.home}\conf\Catalina\localhost\cas.xml" verbose="false" failonerror="true" />
+		<delete file="${catalina.home}/conf/Catalina/localhost/cas.xml" verbose="false" failonerror="true" />
 		<delete file="${catalina.home}/bin/${ant.project.name}.log" verbose="false" failonerror="true" />
 		
 		<delete dir="${catalina.home}/webapps/${ant.project.name}" verbose="false" includeemptydirs="true" failonerror="true" />
 		<delete file="${catalina.home}/webapps/cas-management.war" verbose="false" includeemptydirs="true" failonerror="true" />
 		<delete dir="${catalina.home}/webapps/cas-management" verbose="false" includeemptydirs="true" failonerror="true" />
-		<delete dir="/etc/cas/log" verbose="false" includeemptydirs="true" failonerror="true" />
+		<delete dir="${cas.log.dir}" verbose="false" includeemptydirs="true" failonerror="true" />
 
 		<delete dir="${catalina.home}/work/Catalina" verbose="false" includeemptydirs="true"  failonerror="true"/>
 
@@ -103,7 +103,7 @@
 
 	<target name="copy" description="Copy artifacts over to tomcat" depends="package">
 		<copy overwrite="true"
-		      todir="${catalina.home}\webapps"
+		      todir="${catalina.home}/webapps"
 		      file="target/${ant.project.name}.war"
 			  verbose="true"
 		/>
