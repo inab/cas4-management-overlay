@@ -62,6 +62,12 @@
                    -->
                 <entry key-ref="proxyAuthenticationHandler" value-ref="proxyPrincipalResolver" />
                 <entry key-ref="dbAuthHandler" value-ref="primaryPrincipalResolver" />
+                <!--	Comment previous line and uncomment this one in order to authenticate against LDAP
+                <entry key-ref="ldapAuthenticationHandler" value-ref="primaryPrincipalResolver" />
+                -->
+                <!--	This will be needed for MFA, when we figure out how to do it
+                <entry key-ref="oneTimePasswordHandler" value="#{ null }" />
+                -->
             </map>
         </constructor-arg>
 
@@ -89,7 +95,7 @@
 
 
 
-
+	<!-- SQLite database authentication -->
 	<!-- Defines the database -->
 	<bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource"
@@ -139,7 +145,7 @@
 		p:repeatInterval="1000"/>
 
 
-	<!-- LDAP -->
+	<!-- LDAP authentication -->
 	<!-- See http://jasig.github.io/cas/development/installation/LDAP-Authentication.html -->
 	<bean id="ldapAuthenticationHandler" class="org.jasig.cas.authentication.LdapAuthenticationHandler" p:principalIdAttribute="uid">
 		<constructor-arg ref="authenticator" />
@@ -240,6 +246,15 @@
 		p:idleTime="${ldap.pool.idleTime}" />
 
 	<bean id="searchValidator" class="org.ldaptive.pool.SearchValidator" />
+
+
+	<!-- OTP (when it is clear how to set it up) -->
+	<!--
+	<bean id="oneTimePasswordHandler"
+		class="com.example.cas.authentication.CustomOTPAuthenticationHandler"
+		p:name="oneTimePasswordHandler" />
+	-->
+	
 
     <!-- Required for proxy ticket mechanism. -->
     <bean id="proxyAuthenticationHandler"
