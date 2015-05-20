@@ -60,3 +60,21 @@
 
 ```
 (In order to restrict the traffic only to secure ports)
+
+# User management
+* Create the SQLite3 database at `$HOME/etc/cas/cas-users.sqlite` with next schema:
+```sql
+CREATE TABLE users (
+    username varchar(50) not null,
+    password varchar(50) not null,
+    active bit not null, primary key(username)
+);
+```
+CAS has been setup to expect SHA-1 password hashing. But as SQLite3 does not have embedded hashing functions, the password must be prehashed prior the user creation:
+```bash
+echo -n 1234.abcd | sha1sum
+```
+and this insertion sentence is needed, where the third value of the tuple is the hashed password:
+```sql
+INSERT INTO users VALUES('rdconnect-test','7cfe1e7b7fb35079d81ea5de7a4f958044b53aaa',1);
+```
