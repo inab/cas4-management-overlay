@@ -231,8 +231,7 @@
 	</bean>
 
 	<bean id="pooledBindHandler" class="org.ldaptive.auth.PooledBindAuthenticationHandler"
-		p:connectionFactory-ref="pooledLdapConnectionFactory"
-		p:authenticationControls-ref="authControls" />
+		p:connectionFactory-ref="pooledLdapConnectionFactory" />
 
 	<bean id="ldapPoolConfig" class="org.ldaptive.pool.PoolConfig"
 		p:minPoolSize="${ldap.pool.minSize}"
