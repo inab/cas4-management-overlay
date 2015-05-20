@@ -29,6 +29,12 @@
             <param name="ConversionPattern" value="%d %p [%c] - %m%n"/>
         </layout>
     </appender>
+    
+    <appender name="logstash" class="org.apache.log4j.net.SocketAppender">
+        <param name="Port" value="4712" />
+        <param name="RemoteHost" value="loghost" />
+        <param name="ReconnectionDelay" value="10000" />
+    </appender>
 
     <!--
         WARNING: Setting the org.springframework logger to DEBUG displays debug information about
@@ -65,6 +71,7 @@
     <logger name="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager">
         <level value="INFO" />
         <appender-ref ref="cas" />
+        <appender-ref ref="logstash" />
     </logger>
 
     <!--
