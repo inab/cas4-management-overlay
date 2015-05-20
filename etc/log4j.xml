@@ -13,7 +13,7 @@
     </appender>
 
     <appender name="cas" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="${cas.log.dir}/cas.log" />
+        <param name="File" value="${user.home}/cas-log/cas.log" />
         <param name="MaxFileSize" value="512KB" />
         <param name="MaxBackupIndex" value="3" />
         <layout class="org.apache.log4j.PatternLayout">
@@ -22,7 +22,7 @@
     </appender>
 
     <appender name="spring" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="${cas.log.dir}/spring.log" />
+        <param name="File" value="${user.home}/cas-log/spring.log" />
         <param name="MaxFileSize" value="512KB" />
         <param name="MaxBackupIndex" value="3" />
         <layout class="org.apache.log4j.PatternLayout">
