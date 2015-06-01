@@ -67,6 +67,8 @@
 CREATE TABLE users (
     username varchar(50) not null,
     password varchar(50) not null,
+    fullname varchar(4096) not null,
+    email varchar(64) not null,
     active bit not null, primary key(username)
 );
 ```
