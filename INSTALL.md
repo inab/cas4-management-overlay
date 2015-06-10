@@ -79,5 +79,5 @@ echo -n 1234.abcd | sha1sum
 ```
 and this insertion sentence is needed, where the third value of the tuple is the hashed password:
 ```sql
-INSERT INTO users VALUES('rdconnect-test','7cfe1e7b7fb35079d81ea5de7a4f958044b53aaa','RD-Connect User for tests','rdconnect-test@rd-connect.eu',true);
+INSERT INTO users VALUES('rdconnect-test','7cfe1e7b7fb35079d81ea5de7a4f958044b53aaa','RD-Connect User for tests','rdconnect-test@rd-connect.eu',1);
 ```
