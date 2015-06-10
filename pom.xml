@@ -8,51 +8,6 @@
     <packaging>war</packaging>
     <version>0.5</version>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <warName>cas</warName>
-                    <overlays>
-                        <overlay>
-                            <groupId>org.jasig.cas</groupId>
-                            <artifactId>cas-server-webapp</artifactId>
-                            <excludes>
-                                <exclude>WEB-INF/cas.properties</exclude>
-                                <exclude>WEB-INF/classes/log4j.xml</exclude>
-                            </excludes>
-                        </overlay>
-                    </overlays>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-            </plugin>
-            <plugin>
-                <groupId>com.ejwa</groupId>
-                <artifactId>maven-gitdep-plugin</artifactId>
-                <version>0.1</version>
-                <configuration>
-                    <gitDependencies>
-                        <gitDependency>
-                            <groupId>org.hibernate.dialect</groupId>
-                            <artifactId>sqlite-dialect</artifactId>
-                            <location>https://github.com/gwenn/sqlite-dialect.git</location>
-                            <branch>master</branch>
-                        </gitDependency>
-                    </gitDependencies>
-                </configuration>
-            </plugin>
-
-        </plugins>
-        <finalName>cas</finalName>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>org.jasig.cas</groupId>
@@ -110,6 +65,18 @@
             <version>${hibernate.entitymgmr.version}</version>
         </dependency>
         <dependency>
+	    <groupId>com.github.gwenn</groupId>
+	    <artifactId>sqlite-dialect</artifactId>
+	    <version>c165e9273d4bb606b223e215072d460df3c1f81a</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+            </exclusions>
+	</dependency>
+	<!--
+        <dependency>
             <groupId>org.hibernate.dialect</groupId>
             <artifactId>sqlite-dialect</artifactId>
             <version>${sqlite.hibernate.dialect.version}</version>
@@ -120,7 +87,54 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        -->
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warName>cas</warName>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.jasig.cas</groupId>
+                            <artifactId>cas-server-webapp</artifactId>
+                            <excludes>
+                                <exclude>WEB-INF/cas.properties</exclude>
+                                <exclude>WEB-INF/classes/log4j.xml</exclude>
+                            </excludes>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+            </plugin>
+            <!--
+            <plugin>
+                <groupId>com.ejwa</groupId>
+                <artifactId>maven-gitdep-plugin</artifactId>
+                <version>0.1</version>
+                <configuration>
+                    <gitDependencies>
+                        <gitDependency>
+                            <groupId>org.hibernate.dialect</groupId>
+                            <artifactId>sqlite-dialect</artifactId>
+                            <location>https://github.com/gwenn/sqlite-dialect.git</location>
+                            <branch>master</branch>
+                        </gitDependency>
+                    </gitDependencies>
+                </configuration>
+            </plugin>
+            -->
+        </plugins>
+        <finalName>cas</finalName>
+    </build>
 
     <properties>
         <cas.version>4.0.1</cas.version>
@@ -142,6 +156,10 @@
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 </project>
