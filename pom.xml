@@ -33,6 +33,21 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
             </plugin>
+            <plugin>
+                <groupId>com.ejwa</groupId>
+                <artifactId>maven-gitdep-plugin</artifactId>
+                <version>0.1</version>
+                <configuration>
+                    <gitDependencies>
+                        <gitDependency>
+                            <groupId>org.hibernate.dialect</groupId>
+                            <artifactId>sqlite-dialect</artifactId>
+                            <location>https://github.com/gwenn/sqlite-dialect.git</location>
+                            <branch>master</branch>
+                        </gitDependency>
+                    </gitDependencies>
+                </configuration>
+            </plugin>
 
         </plugins>
         <finalName>cas</finalName>
@@ -86,17 +101,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <!--
             <version>${hibernate.version}</version>
-            -->
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <!--
             <version>${hibernate.entitymgmr.version}</version>
-            -->
         </dependency>
         <dependency>
             <groupId>org.hibernate.dialect</groupId>
@@ -111,31 +122,11 @@
         </dependency>
     </dependencies>
 
-    <plugins>
-        <plugin>
-            <groupId>com.ejwa</groupId>
-            <artifactId>maven-gitdep-plugin</artifactId>
-            <version>0.1</version>
-            <configuration>
-                <gitDependencies>
-                    <gitDependency>
-                        <groupId>org.hibernate.dialect</groupId>
-                        <artifactId>sqlite-dialect</artifactId>
-                        <location>https://github.com/gwenn/sqlite-dialect.git</location>
-                        <branch>master</branch>
-                    </gitDependency>
-                </gitDependencies>
-            </configuration>
-        </plugin>
-    </plugins>
-    
     <properties>
         <cas.version>4.0.1</cas.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
-        <!--
-        <hibernate.entitymgmr.version></hibernate.entitymgmr.version>
-        <hibernate.version></hibernate.version>
-        -->
+        <hibernate.entitymgmr.version>4.1.12.Final</hibernate.entitymgmr.version>
+        <hibernate.version>4.1.12.Final</hibernate.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
