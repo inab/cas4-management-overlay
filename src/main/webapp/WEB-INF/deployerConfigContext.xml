@@ -259,6 +259,11 @@
 		</property>
 	</bean>
 	
+	<util:list id="packagesToScan">
+		<value>org.jasig.cas.services</value>
+		<value>org.jasig.cas.ticket</value>
+	</util:list>
+	
 	<bean id="jpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
 		p:generateDdl="true"
