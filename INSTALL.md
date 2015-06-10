@@ -69,7 +69,8 @@ CREATE TABLE users (
     password varchar(50) not null,
     fullname varchar(4096) not null,
     email varchar(64) not null,
-    active bit not null, primary key(username)
+    active boolean not null,
+    primary key(username)
 );
 ```
 CAS has been setup to expect SHA-1 password hashing. But as SQLite3 does not have embedded hashing functions, the password must be prehashed prior the user creation:
