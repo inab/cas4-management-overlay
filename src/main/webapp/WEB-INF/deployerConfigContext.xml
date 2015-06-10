@@ -240,6 +240,44 @@
         -->
     </util:list>
 
+	<!-- SQLite database service registry -->
+	<!-- See http://jasig.github.io/cas/4.0.x/installation/Service-Management.html#jpaserviceregistrydaoimpl -->
+	<!-- We don't have to redefine the datasource here, as it is shared with the definition above -->
+	<tx:annotation-driven transaction-manager-ref="transactionManager" />
+
+	<bean id="factoryBean"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:jpaVendorAdapter-ref="jpaVendorAdapter"
+		p:packagesToScan-ref="packagesToScan">
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${database.hibernate.dialect}</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.jdbc.batch_size">${database.hibernate.batchSize}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+		p:generateDdl="true"
+		p:showSql="true" />
+
+	<bean id="serviceRegistryDaoJPA"
+		class="org.jasig.cas.services.JpaServiceRegistryDaoImpl" />
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:entityManagerFactory-ref="factoryBean" />
+
+	<!--
+	    | Injects EntityManager/Factory instances into beans with
+	    | @PersistenceUnit and @PersistenceContext
+	-->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	
+
     <bean id="auditTrailManager" class="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager" />
 
     <bean id="healthCheckMonitor" class="org.jasig.cas.monitor.HealthCheckMonitor" p:monitors-ref="monitorsList" />

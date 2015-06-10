@@ -95,56 +95,6 @@
 
 
 
-	<!-- SQLite database authentication -->
-	<!-- Defines the database -->
-	<bean id="dataSource"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		p:driverClass="${database.driverClass}"
-		p:jdbcUrl="${database.url}"
-		p:user="${database.user}"
-		p:password="${database.password}"
-		p:initialPoolSize="${database.pool.minSize}"
-		p:minPoolSize="${database.pool.minSize}"
-		p:maxPoolSize="${database.pool.maxSize}"
-		p:maxIdleTimeExcessConnections="${database.pool.maxIdleTime}"
-		p:checkoutTimeout="${database.pool.maxWait}"
-		p:acquireIncrement="${database.pool.acquireIncrement}"
-		p:acquireRetryAttempts="${database.pool.acquireRetryAttempts}"
-		p:acquireRetryDelay="${database.pool.acquireRetryDelay}"
-		p:idleConnectionTestPeriod="${database.pool.idleConnectionTestPeriod}"
-		p:preferredTestQuery="${database.pool.connectionHealthQuery}" />
-
-	<bean id="passwordEncoder"
-		class="org.jasig.cas.authentication.handler.DefaultPasswordEncoder"
-		c:encodingAlgorithm="SHA1"
-		p:characterEncoding="UTF-8" />
-
-	<bean id="dbAuthHandler"
-		class="org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler"
-		p:dataSource-ref="dataSource"
-		p:passwordEncoder-ref="passwordEncoder"
-		p:sql="select password from users where username=? and active=1" />
-
-
-	<!-- Login throttle -->
-	<bean id="loginThrottle"
-		class="org.jasig.cas.web.support.InMemoryThrottledSubmissionByIpAddressAndUsernameHandlerInterceptorAdapter"
-		p:failureRangeInSeconds="3"
-		p:failureThreshold="1" />	
-
-	<bean id="loginThrottleJobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
-		p:targetObject-ref="loginThrottle"
-		p:targetMethod="decrementCounts"/>
-
-	<!-- A scheduler that drives all configured triggers is provided by default in applicationContext.xml. -->
-	<bean id="loginThrottleTrigger"
-		class="org.springframework.scheduling.quartz.SimpleTriggerBean"
-		p:jobDetail-ref="loginThrottleJobDetail"
-		p:startDelay="1000"
-		p:repeatInterval="1000"/>
-
-
 	<!-- LDAP authentication -->
 	<!-- See http://jasig.github.io/cas/development/installation/LDAP-Authentication.html -->
 	<bean id="ldapAuthenticationHandler" class="org.jasig.cas.authentication.LdapAuthenticationHandler" p:principalIdAttribute="uid">
@@ -246,6 +196,11 @@
 		p:idleTime="${ldap.pool.idleTime}" />
 
 	<bean id="searchValidator" class="org.ldaptive.pool.SearchValidator" />
+	
+	<bean id="searchRequest"
+		class="org.ldaptive.SearchRequest"
+		p:baseDn="${ldap.authn.baseDn}"
+		p:searchFilter="${ldap.authn.searchFilter}" />
 
 
 	<!-- OTP (when it is clear how to set it up) -->
@@ -342,6 +297,22 @@
         -->
     </util:list>
     
+
+	<!-- LDAP service registry -->
+	<!-- See http://jasig.github.io/cas/4.0.x/installation/Service-Management.html#ldapserviceregistrydao -->
+	<!-- See https://www.mail-archive.com/cas-user@lists.jasig.org/msg17287.html -->
+	<!-- We don't have to redefine the pooledLdapConnectionFactory here, as it is shared with the definitions above -->
+	<bean id="serviceRegistryDaoLDAP"
+		class="org.jasig.cas.adaptors.ldap.services.LdapServiceRegistryDao"
+		p:connectionFactory-ref="pooledLdapConnectionFactory"
+		p:searchRequest-ref="searchRequest"
+		p:ldapServiceMapper-ref="ldapMapper" />
+	
+	<bean id="ldapMapper"
+		class="org.jasig.cas.adaptors.ldap.services.DefaultLdapServiceMapper"/>
+	
+	
+	
     <bean id="auditTrailManager" class="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager" />
     
     <bean id="healthCheckMonitor" class="org.jasig.cas.monitor.HealthCheckMonitor" p:monitors-ref="monitorsList" />
