@@ -4,107 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd ">
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.rd-connect</groupId>
-    <artifactId>rdconnect-cas4-overlay</artifactId>
+    <artifactId>rdconnect-cas4-management-overlay</artifactId>
     <packaging>war</packaging>
-    <version>0.6</version>
+    <version>0.1</version>
 
     <dependencies>
         <dependency>
             <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-webapp</artifactId>
+            <artifactId>cas-management-webapp</artifactId>
             <version>${cas.version}</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.entitymgmr.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-        </dependency>
-	<dependency>
-	    <groupId>org.jasig.cas</groupId>
-	    <artifactId>cas-server-core</artifactId>
-	    <version>${cas.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-            </exclusions>
-	</dependency>
-
-	<dependency>
-	    <groupId>org.jasig.cas</groupId>
-	    <artifactId>cas-server-integration-restlet</artifactId>
-	    <version>${cas.version}</version>
-	</dependency>
-
-        <dependency>
-            <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-support-jdbc</artifactId>
-            <version>${cas.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>${sqlite.jdbc.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-support-ldap</artifactId>
-            <version>${cas.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>${commons.dbcp.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-	    <groupId>com.github.AlanKrueger</groupId>
-	    <artifactId>hibernate-sqlite-dialect</artifactId>
-	    <version>3b51dafafdbd9efe627ed7aae90b137dbb3fc072</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-            </exclusions>
-	</dependency>
-	<!--
-        <dependency>
-            <groupId>org.hibernate.dialect</groupId>
-            <artifactId>sqlite-dialect</artifactId>
-            <version>${sqlite.hibernate.dialect.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        -->
     </dependencies>
 
     <build>
@@ -114,11 +25,11 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <warName>cas</warName>
+                    <warName>cas-management</warName>
                     <overlays>
                         <overlay>
                             <groupId>org.jasig.cas</groupId>
-                            <artifactId>cas-server-webapp</artifactId>
+                            <artifactId>cas-management-webapp</artifactId>
                             <excludes>
                                 <exclude>WEB-INF/cas.properties</exclude>
                                 <exclude>WEB-INF/classes/log4j.xml</exclude>
@@ -151,20 +62,14 @@
             </plugin>
             -->
         </plugins>
-        <finalName>cas</finalName>
+        <finalName>cas-management</finalName>
     </build>
 
     <properties>
         <cas.version>4.0.1</cas.version>
-        <commons.dbcp.version>1.4</commons.dbcp.version>
-        <hibernate.entitymgmr.version>4.1.12.Final</hibernate.entitymgmr.version>
-        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
-        <hibernate.version>4.1.12.Final</hibernate.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sqlite.hibernate.dialect.version>0.1.0</sqlite.hibernate.dialect.version>
-        <sqlite.jdbc.version>3.8.7</sqlite.jdbc.version>
     </properties>
 
     <repositories>
@@ -175,10 +80,6 @@
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 </project>
