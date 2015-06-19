@@ -29,7 +29,7 @@
 	<property name="tomcat.log.patterns" value="**/*.log, **/*.txt" />
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 	<property file="etc/cas.properties" />
-	<property file="${user.home}/etc/cas/tomcat-deployment.properties" />
+	<property file="${basedir}/etc/tomcat-deployment.properties" />
 
 	<property name="catalina.home" location="/usr/share/tomcat"/>
 	
