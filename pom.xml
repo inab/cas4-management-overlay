@@ -16,6 +16,25 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
+        
+        <!--
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.entitymgmr.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
@@ -33,7 +52,9 @@
                             <excludes>
                                 <exclude>WEB-INF/cas.properties</exclude>
                                 <exclude>WEB-INF/classes/log4j.xml</exclude>
+                                <!--
                                 <exclude>WEB-INF/lib/hibernate-*.jar</exclude>
+                                -->
                             </excludes>
                         </overlay>
                     </overlays>
@@ -67,6 +88,9 @@
 
     <properties>
         <cas.version>4.0.1</cas.version>
+        <hibernate.entitymgmr.version>4.1.12.Final</hibernate.entitymgmr.version>
+        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
+        <hibernate.version>4.1.12.Final</hibernate.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
