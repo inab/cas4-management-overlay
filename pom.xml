@@ -6,7 +6,7 @@
     <groupId>eu.rd-connect</groupId>
     <artifactId>rdconnect-cas4-management-overlay</artifactId>
     <packaging>war</packaging>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <dependencies>
         <dependency>
@@ -16,25 +16,6 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
-        
-        <!--
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.entitymgmr.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-        </dependency>
-        -->
     </dependencies>
 
     <build>
@@ -51,7 +32,7 @@
                             <artifactId>cas-management-webapp</artifactId>
                             <excludes>
                                 <exclude>WEB-INF/cas.properties</exclude>
-                                <exclude>WEB-INF/classes/log4j.xml</exclude>
+                                <exclude>WEB-INF/classes/log4j2.xml</exclude>
                                 <!--
                                 <exclude>WEB-INF/lib/hibernate-*.jar</exclude>
                                 -->
@@ -63,34 +44,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-            </plugin>
-            <!--
-            <plugin>
-                <groupId>com.ejwa</groupId>
-                <artifactId>maven-gitdep-plugin</artifactId>
-                <version>0.1</version>
+                <version>3.3</version>
                 <configuration>
-                    <gitDependencies>
-                        <gitDependency>
-                            <groupId>org.hibernate.dialect</groupId>
-                            <artifactId>sqlite-dialect</artifactId>
-                            <location>https://github.com/gwenn/sqlite-dialect.git</location>
-                            <branch>master</branch>
-                        </gitDependency>
-                    </gitDependencies>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-            -->
         </plugins>
         <finalName>cas-management</finalName>
     </build>
 
     <properties>
-        <cas.version>4.0.1</cas.version>
-        <hibernate.entitymgmr.version>4.1.12.Final</hibernate.entitymgmr.version>
-        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
-        <hibernate.version>4.1.12.Final</hibernate.version>
+        <cas.version>4.1.0</cas.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
