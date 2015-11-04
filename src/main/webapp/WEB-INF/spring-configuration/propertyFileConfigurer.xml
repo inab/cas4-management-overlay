@@ -38,7 +38,7 @@
 
     <util:properties
 		id="casProperties"
-		location="/WEB-INF/cas.properties,file:/etc/cas/cas.properties,${cas.properties.filepath:file:${user.home}/etc/cas/cas.properties}"
+		location="/WEB-INF/cas-management.properties,file:/etc/cas/cas.properties,${cas.properties.filepath:file:${user.home}/etc/cas/cas.properties}"
 		ignore-resource-not-found="true"
 		/>
 
