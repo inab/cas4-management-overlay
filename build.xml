@@ -27,13 +27,23 @@
 	
 	<property name="tomcat.log.patterns" value="**/*.log, **/*.txt" />
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-	<property file="${user.home}/etc/cas/cas.properties" />
 	
 	<available file="${basedir}/etc/tomcat-deployment.properties"  type="file" property="tomcat.config.exists" />
 	<fail unless="tomcat.config.exists" message="Tomcat configuration file ${basedir}/etc/tomcat-deployment.properties does not exist"/>
 	
 	<property file="${basedir}/etc/tomcat-deployment.properties" />
 	
+	<available file="${user.home}/etc/cas/cas.properties" type="file" property="user.tomcat.install" />
+	<if>
+		<istrue value="${user.tomcat.install}"/>
+		<then>
+			<property file="${user.home}/etc/cas/cas.properties" />
+		</then>
+		<else>
+			<property file="/etc/cas/cas.properties" />
+		</else>
+	</if>
+
 	<if>
 		<not>
 			<isset property="catalina.home"/>
@@ -52,6 +62,10 @@
 	</if>
 	<available file="${catalina.home}" type="dir" property="catalina.home.exists" />
 	<fail unless="catalina.home.exists" message="Tomcat directory ${catalina.home} does not exist" />
+	
+	<!-- Tomcat deployment task -->
+	<!-- This taskdef is needed to use the power of ant deployments! -->
+	<import file="${catalina.home}/bin/catalina-tasks.xml"/>
 	
 	<property name="application.context" value="${cas-management.context}" />
 	<property name="application.war" location="${basedir}/target/${ant.project.name}.war"/>
@@ -104,22 +118,6 @@
 	</condition>
 	<property name="tomcatShutDown" value="${catalina.home}\bin\${tomcatShutDownFile}" />
 
-	<!-- Tomcat deployment task -->
-	<!-- This taskdef is needed to use the power of ant deployments! -->
-	<taskdef resource="org/apache/catalina/ant/catalina.tasks">
-		<classpath>
-			<fileset dir="${catalina.home}/bin">
-				<include name="tomcat-juli.jar" />
-			</fileset>
-			<fileset dir="${catalina.home}/lib">
-				<include name="jasper.jar" />
-				<include name="tomcat-coyote.jar"/>
-				<include name="tomcat-util.jar"/>
-				<include name="catalina-ant.jar" />
-			</fileset>
-		</classpath>
-	</taskdef>
-	
 	<!-- ********************* TARGETS *************************** -->
 	<target name="cleanTomcatLogs" description="Clean tomcat log files">
 		<delete failonerror="false">
@@ -221,7 +219,7 @@
 			<arg value="-keysize"/> <arg value="8192"/>
 		</exec>
 	</target>
-	
+
 	<target name="help" description="Prints instructions on how to run the build.">
 		<echo message="Use 'ant -projecthelp' to see all available commands" />
 	</target>
