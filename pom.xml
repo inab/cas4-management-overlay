@@ -16,6 +16,38 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+			<version>${spring.security.ldap.version}</version>
+			<exclusions>
+				<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+				</exclusion>
+				<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-tx</artifactId>
+				</exclusion>
+				<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+        <dependency>
+            <groupId>org.jasig.cas</groupId>
+            <artifactId>cas-server-support-ldap</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -31,7 +63,6 @@
                             <groupId>org.jasig.cas</groupId>
                             <artifactId>cas-management-webapp</artifactId>
                             <excludes>
-                                <exclude>WEB-INF/cas.properties</exclude>
                                 <exclude>WEB-INF/classes/log4j2.xml</exclude>
                                 <!--
                                 <exclude>WEB-INF/lib/hibernate-*.jar</exclude>
@@ -55,10 +86,12 @@
     </build>
 
     <properties>
-        <cas.version>4.1.0</cas.version>
+        <cas.version>4.1.1</cas.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- This comes from CAS dependencies -->
+        <spring.security.ldap.version>4.0.1.RELEASE</spring.security.ldap.version>
     </properties>
 
     <repositories>
