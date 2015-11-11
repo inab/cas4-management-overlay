@@ -1,83 +1,40 @@
-* Install Java >= 1.7
-* export JAVA_HOME, JAVA_JRE
-* Install tomcat7
-* export CATALINA_HOME
-* Install Apache Maven >=3.0
-* Config DNS giving server a name (rdconnectcas.rd-connect.eu). In our case server hostname is rdconnectcas. In client machine we added an entry for rdconnectcas.rd-connect.eu in /etc/hosts
+# Setup needed before installing CAS Management
+The setup precondition for this webapp is having a running Tomcat instance with the CAS server within it. So, we encourage you to follow the available instructions at [/inab/ldap-rest-cas4-overlay/blob/cas-4.1.x/INSTALL.md](RD-Connect CAS repository), as the installation of this webapp depends on the installation decisions previously taken for RD-Connect CAS.
 
-
-# Certificates (Ubuntu):
-
-* Create CA. We used tinyca2, generating a CA inside rdconnect_demo_CA folder (this is the name given inside the Name (for local storage) parameter during the CA creation).
-* Move .TinyCA/rdconnect_demo_CA to /etc/ssl or ${HOME}/etc/ssl (depending on your privileges)
-* Make a backup of /etc/ssl/openssl.cnf just in case...
-* Move /etc/ssl/rdconnect_demo_CA/openssl.cnf to /etc/ssl/openssl.cnf
-* Edit /etc/ssl/openssl.cnf. Set dir = /etc/ssl/rdconnect_demo_CA
-
-* Create Tomcat Server Certificate (at ${HOME}/etc/ssl/rdconnect_demo_CA):
-* keytool -genkey -alias tomcat-server -keyalg RSA -keystore tomcat-server.jks -storepass changeit -keypass changeit -dname "CN=rdconnectcas.rd-connect.eu, OU=Spanish Bioinformatics Institute, O=INB at CNIO, L=Madrid, S=Madrid, C=CN"
-* keytool -certreq -keyalg RSA -alias tomcat-server -file tomcat-server.csr -keystore tomcat-server.jks -storepass changeit
-* Sign the request
-* openssl x509 -req -in tomcat-server.csr -out tomcat-server.pem  -CA ${HOME}/etc/ssl/rdconnect_demo_CA/cacert.pem -CAkey ${HOME}/etc/ssl/rdconnect_demo_CA/cacert.key -days 365 -CAcreateserial -sha1 -trustout  -CA ${HOME}/etc/ssl/rdconnect_demo_CA/cacert.pem -CAkey ${HOME}/etc/ssl/rdconnect_demo_CA/cacert.key -days 365 -CAserial ${HOME}/etc/ssl/rdconnect_demo_CA/serial -sha1 -trustout
-* Verify the purpose
-* openssl verify -CAfile ${HOME}/etc/ssl/rdconnect_demo_CA/cacert.pem -purpose sslserver tomcat-server.pem
-* openssl x509 -in tomcat-server.pem -inform PEM -out tomcat-server.der -outform DER
-* Import root certificate:
-* keytool -import -alias rdconnect-root -file ${HOME}/etc/ssl/rdconnect_demo_CA/cacert.pem -keystore tomcat-server.jks -storepass changeit
-* Import tomcat-server certificate:
-* keytool -import -trustcacerts -alias tomcat-server -file tomcat-server.der -keystore tomcat-server.jks -storepass changeit
-* keytool -list -v -keystore tomcat-server.jks -storepass changeit
-
-
-# Configure Tomcat to use certificate:
-* Edit conf/server.xml adding:
-```xml
-	<Connector port="9443" protocol="HTTP/1.1"
-                connectionTimeout="20000"
-                redirectPort="9443"
-                SSLEnabled="true"
-                scheme="https"
-                secure="true"
-                sslProtocol="TLS"
-                keystoreFile="${user.home}/etc/ssl/rdconnect_demo_CA/tomcat-server.jks"
-                truststoreFile="${user.home}/etc/ssl/rdconnect_demo_CA/tomcat-server.jks"
-                keystorePass="changeit" />
-
-```
-    
-# Maven Overlay Installation
+# CAS Management Maven Overlay Installation
 * Clone git project with the simple overlay template here
-* Execute inside the project folder:  mvn clean package
-* Copy simple-cas-overlay-template/target/cas.war to $CATALINA_HOME/webapps/
-* Copy etc/* directory to ${HOME}/etc/cas
-
-* If you don’t have any applications running in the 8080 port, you can comment out the lines inside $CATALINA_BASE/conf/server.xml:
-```xml
-	<!-- <Connector port="8080" protocol="HTTP/1.1"
-	connectionTimeout="20000"
-        redirectPort="9443" />
-	-->
-
-```
-(In order to restrict the traffic only to secure ports)
-
-# User management
-* Create the SQLite3 database at `$HOME/etc/cas/cas-users.sqlite` with next schema:
-```sql
-CREATE TABLE users (
-    username varchar(50) not null,
-    password varchar(50) not null,
-    fullname varchar(4096) not null,
-    email varchar(64) not null,
-    active boolean not null,
-    primary key(username)
-);
-```
-CAS has been setup to expect SHA-1 password hashing. But as SQLite3 does not have embedded hashing functions, the password must be prehashed prior the user creation:
 ```bash
-echo -n 1234.abcd | sha1sum
+git clone -b cas-4.1.x https://github.com/inab/cas4-management-overlay.git /tmp/cas4-management-4.1.x
+```	
+
+* Inside the checked-out directory, run `mvn clean package` in order to generate the war:
+```bash
+cd /tmp/cas4-management-4.1.x
+mvn clean package
 ```
-and this insertion sentence is needed, where the third value of the tuple is the hashed password:
-```sql
-INSERT INTO users VALUES('rdconnect-test','7cfe1e7b7fb35079d81ea5de7a4f958044b53aaa','RD-Connect User for tests','rdconnect-test@rd-connect.eu',1);
+
+* Now, depending on whether you are using a system or an user Tomcat, you have to slightly change your installation procedure.
+
+  * (SYSTEM) Be sure that directories /etc/cas and /var/log/cas do exist, and they belong to `tomcat` user. Copy `log4j2-cas-management.system.xml` renaming it:
+  ```bash
+  install -o tomcat -g tomcat -m 755 -d /etc/cas
+  install -o tomcat -g tomcat -m 755 -d /var/log/cas
+  install -D -o tomcat -g tomcat -m 644 /tmp/cas4-management-4.1.x/etc/log4j2-cas-management.system.xml /etc/cas/log4j2-cas-management.xml
+  ```
+  
+  * (USER) Be sure that directories ${HOME}/etc/cas and ${HOME}/cas-log do exist. Copy `log4j2-cas-management.user.xml` renaming it:
+  ```bash
+  mkdir -p "${HOME}"/etc/cas "${HOME}"/cas-log
+  cp -p /tmp/cas4-management-4.1.x/etc/log4j2-cas-management.user.xml "${HOME}"/etc/cas/log4j2-cas-management.xml
+  ```
+
+* (SYSTEM, USER) Last, deploy it using the provided ant script. You have to copy `etc/tomcat-deployment.properties.template` to `etc/tomcat-deployment.properties`, and put there the password you assigned to the Tomcat user `cas-tomcat-deployer` when you installed Tomcat for the CAS server:
+
+```bash
+cd /tmp/cas4-management-4.1.x
+cp etc/tomcat-deployment.properties.template etc/tomcat-deployment.properties
+# Apply the needed changes to etc/tomcat-deployment.properties
+
+# Now deploy the application, using the keystore previously generated
+ANT_OPTS="-Djavax.net.ssl.trustStore=/etc/tomcat/cas-tomcat-server.jks" ant deploy
 ```
