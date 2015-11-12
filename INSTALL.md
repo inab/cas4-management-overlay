@@ -36,5 +36,5 @@ cp etc/tomcat-deployment.properties.template etc/tomcat-deployment.properties
 # Apply the needed changes to etc/tomcat-deployment.properties
 
 # Now deploy the application, using the keystore previously generated
-ANT_OPTS="-Djavax.net.ssl.trustStore=/etc/tomcat/cas-tomcat-server.jks" ant deploy
+ANT_OPTS="-Djavax.net.ssl.trustStore=/etc/tomcat/cas-tomcat-server.jks -Djavax.net.ssl.trustStorePassword=cas.Keystore.Pass" ant deploy
 ```
