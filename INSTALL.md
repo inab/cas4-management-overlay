@@ -1,10 +1,10 @@
 # Setup needed before installing CAS Management
-The setup precondition for this webapp is having a running Tomcat instance with the CAS server within it. So, we encourage you to follow the available instructions at [/inab/ldap-rest-cas4-overlay/blob/cas-4.1.x/INSTALL.md](RD-Connect CAS repository), as the installation of this webapp depends on the installation decisions previously taken for RD-Connect CAS.
+The setup precondition for this webapp is having a running Tomcat instance with the CAS server within it. So, we encourage you to follow the available instructions at [/inab/ldap-rest-cas4-overlay/blob/master/INSTALL.md](RD-Connect CAS repository), as the installation of this webapp depends on the installation decisions previously taken for RD-Connect CAS.
 
 # CAS Management Maven Overlay Installation
 * Clone git project with the simple overlay template here
 ```bash
-git clone -b cas-4.1.x https://github.com/inab/cas4-management-overlay.git /tmp/cas4-management-4.1.x
+git clone https://github.com/inab/cas4-management-overlay.git /tmp/cas4-management-4.1.x
 ```	
 
 * Inside the checked-out directory, run `mvn clean package` in order to generate the war:
