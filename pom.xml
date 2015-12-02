@@ -6,9 +6,61 @@
     <groupId>eu.rd-connect</groupId>
     <artifactId>rdconnect-cas4-management-overlay</artifactId>
     <packaging>war</packaging>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
 
+	<dependencyManagement>
+		<dependencies>
+			<!-- These dependencies are needed to avoid conflicts -->
+			<dependency>
+				<groupId>xml-apis</groupId>
+				<artifactId>xml-apis</artifactId>
+				<version>${xml-apis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.orm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.orm.version}</version>
+			</dependency>
+			<!--
+				These two dependencies were added due
+				https://groups.google.com/forum/#!topic/jasig-cas-user/WsxxUHahrM8
+				Basically, with default version in CAS 4.1.1, LDAP attribute
+				names with capital letters are not recognized, being skipped
+			-->
+			<dependency>
+				<groupId>org.jasig.service.persondir</groupId>
+				<artifactId>person-directory-api</artifactId>
+				<version>${cas.person.directory.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.jasig.service.persondir</groupId>
+				<artifactId>person-directory-impl</artifactId>
+				<version>${cas.person.directory.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
     <dependencies>
+	<!-- These dependencies are needed to avoid conflicts -->
+	<!--
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-orm</artifactId>
+		<version>${spring.orm.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${spring.orm.version}</version>
+	</dependency>
+	-->
+	<!-- These are the real dependencies -->
         <dependency>
             <groupId>org.jasig.cas</groupId>
             <artifactId>cas-management-webapp</artifactId>
@@ -67,6 +119,7 @@
                                 <!--
                                 <exclude>WEB-INF/lib/hibernate-*.jar</exclude>
                                 -->
+                                <exclude>WEB-INF/lib/person-directory-*.jar</exclude>
                             </excludes>
                         </overlay>
                     </overlays>
@@ -86,12 +139,15 @@
     </build>
 
     <properties>
-        <cas.version>4.1.1</cas.version>
+        <cas.version>4.1.2</cas.version>
+        <cas.person.directory.version>1.7.1-M3</cas.person.directory.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- This comes from CAS dependencies -->
+        <!-- These come from CAS dependencies -->
         <spring.security.ldap.version>4.0.1.RELEASE</spring.security.ldap.version>
+        <spring.orm.version>4.1.8.RELEASE</spring.orm.version>
+        <xml-apis.version>1.4.01</xml-apis.version>
     </properties>
 
     <repositories>

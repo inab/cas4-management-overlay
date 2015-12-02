@@ -5,7 +5,7 @@ CAS Management maven war overlay with service definitions stored in LDAP, for CA
 
 # Versions
 ```xml
-<cas.version>4.1.1</cas.version>
+<cas.version>4.1.2</cas.version>
 ```
 
 # Recommended Requirements
