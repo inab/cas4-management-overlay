@@ -38,3 +38,5 @@ cp etc/tomcat-deployment.properties.template etc/tomcat-deployment.properties
 # Now deploy the application, using the keystore previously generated
 ANT_OPTS="-Djavax.net.ssl.trustStore=/etc/tomcat/cas-tomcat-server.jks -Djavax.net.ssl.trustStorePassword=cas.Keystore.Pass" ant deploy
 ```
+
+# By default, CAS management setup establish that users belonging to group `cn=admin,ou=groups,dc=rd-connect,dc=eu` are the only ones allowed to use this webapp. Although `cn=root,ou=admins,ou=people,dc=rd-connect,dc=eu` should be allowed to use it, as it already belongs to the group, it is highly discouraged.
