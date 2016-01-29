@@ -19,6 +19,7 @@
     under the License.
 
 -->
+
 <!-- Specify the refresh internal in seconds. -->
 <Configuration monitorInterval="60">
 	<Properties>
@@ -32,7 +33,7 @@
             -->
         </Console>
         <RollingFile name="cas-management" fileName="${log.dir}/cas-management.log" append="true"
-                     filePattern="${log.dir}/cas-management-%d{yyyy-MM-dd-HH}-%i.log.gz">
+                     filePattern="${log.dir}/cas-management-%d{yyyy-MM-dd}-%i.log.gz">
             <!--
             <PatternLayout pattern="%d %p [%c] - %m%n"/>
             -->
