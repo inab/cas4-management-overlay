@@ -1,7 +1,7 @@
 RD-Connect CAS Management Overlay (based on CAS Management Overlay template)
 ============================
 
-CAS management web application Maven overlay for CAS with externalized configuration.
+Customized CAS management web application Maven overlay for CAS with externalized configuration, managing the services data stored in an LDAP directory.
 
 # Versions
 
@@ -19,4 +19,4 @@ Follow [installation instructions](INSTALL.md).
 
 ## External
 
-Deploy resultant `target/cas-management.war`  to a servlet container of choice.
+Deploy resultant `target/cas-management.war` to a servlet container of choice.
