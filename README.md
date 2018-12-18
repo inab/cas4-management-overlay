@@ -1,7 +1,7 @@
-CAS Management Overlay
+RD-Connect CAS Management Overlay (based on CAS Management Overlay template)
 ============================
 
-CAS management web application Maven overlay for CAS with externalized configuration. The Gradle equivalent of this overlay is [available here](https://github.com/apereo/cas-management-gradle-overlay).
+CAS management web application Maven overlay for CAS with externalized configuration.
 
 # Versions
 
