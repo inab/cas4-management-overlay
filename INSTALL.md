@@ -1,5 +1,5 @@
 # Setup needed before installing CAS Management
-The setup precondition for this webapp is having a running Tomcat instance with the CAS server within it. So, we encourage you to follow the available instructions at [/inab/rd-connect-cas-overlay/blob/5.3.x/INSTALL.md](RD-Connect CAS repository), as the installation of this webapp depends on the installation decisions previously taken for RD-Connect CAS.
+The setup precondition for this webapp is having a running Tomcat instance with the CAS server within it. So, we encourage you to follow the available instructions at [RD-Connect CAS repository](/inab/rd-connect-cas-overlay/blob/5.3.x/INSTALL.md), as the installation of this webapp depends on the installation decisions previously taken for RD-Connect CAS.
 
 # CAS Management Maven Overlay Installation
 * Clone current git project with the simple overlay template here
