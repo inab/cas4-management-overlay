@@ -1,0 +1,96 @@
+# CAS server that management app will authenticate with
+# This server will authenticate for any app (service) and you can login as casuser/Mellon 
+
+# unofficial keys
+cas.domain.name=rd-connect.eu
+cas.host.name=rdconnectcas.${cas.domain.name}
+cas.server.protocol=https
+cas.server.port=9443
+# /unofficial keys
+cas.server.name=${cas.server.protocol}://${cas.host.name}:${cas.server.port}
+# unofficial keys
+cas.context=/cas
+# /unofficial keys
+cas.server.prefix=${cas.server.name}${cas.context}
+
+cas.mgmt.adminRoles[0]=ROLE_ADMIN
+cas.mgmt.userPropertiesFile=file:${cas.resources.dir}/users.properties
+
+# Update this URL to point at server running this management app
+cas.mgmt.serverName=${cas.server.name}
+
+server.context-path=/cas-management
+server.port=${cas.server.port}
+
+cas.mgmt.authzAttributes[0]=memberOf
+
+##########################
+# Attributes not being #
+# populated from CAS #
+####################
+
+# cas.authn.attributeRepository.stub.attributes.uid=uid
+# cas.authn.attributeRepository.stub.attributes.givenName=givenName
+# cas.authn.attributeRepository.stub.attributes.eppn=eppn
+
+######################
+# LDAP Authorization #
+######################
+
+# Enable authorization based on groups
+# cas.mgmt.ldap.ldapAuthz.groupAttribute=
+# cas.mgmt.ldap.ldapAuthz.groupPrefix=
+cas.mgmt.ldap.ldapAuthz.groupFilter=(&(cn=admin)(member={0}))
+cas.mgmt.ldap.ldapAuthz.groupBaseDn=ou=groups,dc=rd-connect,dc=eu
+
+# Enable authorization based on attributes and roles
+# cas.mgmt.ldap.ldapAuthz.rolePrefix=ROLE_
+# cas.mgmt.ldap.ldapAuthz.roleAttribute=uugid
+
+# cas.mgmt.ldap.ldapAuthz.searchFilter=cn={user}
+# cas.mgmt.ldap.ldapAuthz.baseDn=
+
+######################################
+# LDAP Storage of service management #
+######################################
+
+cas.mgmt.ldap.ldapUrl=ldaps://ldap.${cas.domain.name}
+cas.mgmt.ldap.useSsl=true
+cas.mgmt.ldap.useStartTls=false
+# Manager credentials to bind; used for searches and updates.
+cas.mgmt.ldap.bindDn=cn=admin,dc=rd-connect,dc=eu
+# Change this fake password by the real one used in the setup environment
+cas.mgmt.ldap.bindCredential=ChangeIt!!!
+
+cas.mgmt.ldap.baseDn=ou=services,dc=rd-connect,dc=eu
+cas.mgmt.ldap.subtreeSearch=true
+cas.mgmt.ldap.userFilter=uid={user}
+cas.mgmt.ldap.allowMultipleResults=false
+
+# == Connection pooling settings ==
+cas.mgmt.ldap.minPoolSize=0
+cas.mgmt.ldap.maxPoolSize=10
+cas.mgmt.ldap.blockWaitTime=PT3S
+cas.mgmt.ldap.validateOnCheckin=false
+cas.mgmt.ldap.validateOnCheckout=false
+cas.mgmt.ldap.validatePeriodically=true
+cas.mgmt.ldap.validatePeriod=PT5M
+cas.mgmt.ldap.prunePeriod=PT2H
+cas.mgmt.ldap.idleTime=PT10M
+
+cas.mgmt.ldap.trustCertificates=file:${cas.resources.dir}/cacert.pem
+
+
+
+# cas.mgmt.ldap.connectionStrategy=
+# cas.mgmt.ldap.providerClass=org.ldaptive.provider.unboundid.UnboundIDProvider
+# cas.mgmt.ldap.connectTimeout=5000
+# cas.mgmt.ldap.keystore=
+# cas.mgmt.ldap.keystorePassword=
+# cas.mgmt.ldap.keystoreType=JKS|JCEKS|PKCS12
+# cas.mgmt.ldap.poolPassivator=NONE|CLOSE|BIND
+# cas.mgmt.ldap.validateTimeout=5000
+# cas.mgmt.ldap.failFast=true
+# cas.mgmt.ldap.idleTime=500
+
+logging.config=file:${cas.resources.dir}/log4j2-management.xml

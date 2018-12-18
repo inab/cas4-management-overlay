@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd ">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apereo.cas</groupId>
-    <artifactId>cas-services-management-overlay</artifactId>
+    <groupId>eu.rd-connect</groupId>
+    <artifactId>rdconnect-cas-management-overlay</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
 
@@ -73,11 +73,16 @@
             <version>${cas-mgmt.version}</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-management-webapp-support-ldap</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
         <cas-mgmt.version>5.3.6</cas-mgmt.version>     
-        <cas.version>5.3.5</cas.version>
+        <cas.version>5.3.6</cas.version>
         <springboot.version>1.5.14.RELEASE</springboot.version>
         <mainClassName>org.springframework.boot.loader.WarLauncher</mainClassName>
         <isExecutable>false</isExecutable>

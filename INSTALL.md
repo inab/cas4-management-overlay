@@ -17,9 +17,7 @@ cd /tmp/cas-management-5.3.x
 
   * (SYSTEM) Be sure that directories /etc/cas and /var/log/cas do exist, and they belong to `tomcat` user. Copy `log4j2-cas-management.system.xml` renaming it:
   ```bash
-  install -o tomcat -g tomcat -m 755 -d /etc/cas
-  install -o tomcat -g tomcat -m 755 -d /var/log/cas
-  install -D -o tomcat -g tomcat -m 644 /tmp/cas-management-5.3.x/etc/log4j2-cas-management.system.xml /etc/cas/log4j2-cas-management.xml
+  bash etc/setup-cas-management.sh {LDAP admin credentials}
   ```
   
   * (USER) Be sure that directories ${HOME}/etc/cas and ${HOME}/cas-log do exist. Copy `log4j2-cas-management.user.xml` renaming it:
