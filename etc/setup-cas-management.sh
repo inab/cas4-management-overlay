@@ -37,12 +37,12 @@ if [ ! -d "${destEtcCASDir}" -o ! -f "${destEtcCASDir}"/management.properties ] 
 	install -D -o tomcat -g tomcat -m 600 -t "${destEtcCASDir}"/services "${etccasdir}"/services/*
 	
 	echo >> "${destEtcCASDir}"/management.properties
-	echo "# Parameters automatically added from Dockerfile" >> "${destEtcCASDir}"/management.properties
-	echo "cas.resources.dir=${destEtcCASDir}" >> "${destEtcCASDir}"/management.properties
-	echo "cas.log.dir=${destCASLog}" >> "${destEtcCASDir}"/management.properties
+	echo "# Parameters automatically added from automated CAS Management setup ($(date -I))" >> "${destEtcCASDir}"/management.properties
+	echo "custom.resourcesDir=${destEtcCASDir}" >> "${destEtcCASDir}"/management.properties
 	
 	# Setting up LDAP manager password
-	sed -i "s#^cas.mgmt.ldap.bindCredential=.*#cas.mgmt.ldap.bindCredential=${ldapAdminPass}#" "${destEtcCASDir}"/management.properties
+	sed -i 's/^\(cas.mgmt.ldap.bindCredential=\)/#\1/' "${destEtcCASDir}"/management.properties
+	echo "cas.mgmt.ldap.bindCredential=${ldapAdminPass}" >> "${destEtcCASDir}"/management.properties
 	
 	# Last, cleanup
 fi

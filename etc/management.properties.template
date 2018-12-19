@@ -1,26 +1,29 @@
-# CAS server that management app will authenticate with
-# This server will authenticate for any app (service) and you can login as casuser/Mellon 
+#####
+# Remember, all the properties from registered cas prefixes are validated.
+# So, we have to create properties in custom prefixes like "custom." ,
+# instead of starting with "cas." or similar, as unkown keys are rejected.
+#####
 
 # unofficial keys
-cas.domain.name=rd-connect.eu
-cas.host.name=rdconnectcas.${cas.domain.name}
-cas.server.protocol=https
-cas.server.port=9443
+custom.domainName=rd-connect.eu
+custom.hostName=rdconnectcas.${custom.domainName}
+custom.serverProtocol=https
+custom.serverPort=9443
 # /unofficial keys
-cas.server.name=${cas.server.protocol}://${cas.host.name}:${cas.server.port}
+cas.server.name=${custom.serverProtocol}://${custom.hostName}:${custom.serverPort}
 # unofficial keys
-cas.context=/cas
+custom.context=/cas
 # /unofficial keys
-cas.server.prefix=${cas.server.name}${cas.context}
+cas.server.prefix=${custom.serverName}${custom.context}
 
 cas.mgmt.adminRoles[0]=ROLE_ADMIN
-cas.mgmt.userPropertiesFile=file:${cas.resources.dir}/users.properties
+cas.mgmt.userPropertiesFile=file:${custom.resourcesDir}/users.properties
 
 # Update this URL to point at server running this management app
 cas.mgmt.serverName=${cas.server.name}
 
 server.context-path=/cas-management
-server.port=${cas.server.port}
+server.port=${custom.serverPort}
 
 cas.mgmt.authzAttributes[0]=memberOf
 
@@ -54,7 +57,7 @@ cas.mgmt.ldap.ldapAuthz.groupBaseDn=ou=groups,dc=rd-connect,dc=eu
 # LDAP Storage of service management #
 ######################################
 
-cas.mgmt.ldap.ldapUrl=ldaps://ldap.${cas.domain.name}
+cas.mgmt.ldap.ldapUrl=ldaps://ldap.${custom.domainName}
 cas.mgmt.ldap.useSsl=true
 cas.mgmt.ldap.useStartTls=false
 # Manager credentials to bind; used for searches and updates.
@@ -78,7 +81,7 @@ cas.mgmt.ldap.validatePeriod=PT5M
 cas.mgmt.ldap.prunePeriod=PT2H
 cas.mgmt.ldap.idleTime=PT10M
 
-cas.mgmt.ldap.trustCertificates=file:${cas.resources.dir}/cacert.pem
+cas.mgmt.ldap.trustCertificates=file:${custom.resourcesDir}/cacert.pem
 
 
 
@@ -93,4 +96,4 @@ cas.mgmt.ldap.trustCertificates=file:${cas.resources.dir}/cacert.pem
 # cas.mgmt.ldap.failFast=true
 # cas.mgmt.ldap.idleTime=500
 
-logging.config=file:${cas.resources.dir}/log4j2-management.xml
+logging.config=file:${custom.resourcesDir}/log4j2-management.xml
