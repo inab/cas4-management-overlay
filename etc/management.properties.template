@@ -13,8 +13,9 @@ custom.serverPort=9443
 custom.context=/cas
 # /unofficial keys
 mgmt.serverName=${custom.serverProtocol}://${custom.hostName}:${custom.serverPort}
-cas.server.name=${mgmt.serverName}
-cas.server.prefix=${mgmt.serverName}${custom.context}
+# Commented meanwhile it is fixed the bug
+#cas.server.name=${mgmt.serverName}
+#cas.server.prefix=${mgmt.serverName}${custom.context}
 
 mgmt.adminRoles[0]=ROLE_ADMIN
 mgmt.userPropertiesFile=file:${custom.resourcesDir}/users.properties

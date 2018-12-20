@@ -41,8 +41,8 @@ if [ ! -d "${destEtcCASDir}" -o ! -f "${destEtcCASDir}"/management.properties ] 
 	echo "custom.resourcesDir=${destEtcCASDir}" >> "${destEtcCASDir}"/management.properties
 	
 	# Setting up LDAP manager password
-	sed -i 's/^\(cas.mgmt.ldap.bindCredential=\)/#\1/' "${destEtcCASDir}"/management.properties
-	echo "cas.mgmt.ldap.bindCredential=${ldapAdminPass}" >> "${destEtcCASDir}"/management.properties
+	sed -i 's/^\(mgmt.ldap.bindCredential=\)/#\1/' "${destEtcCASDir}"/management.properties
+	echo "mgmt.ldap.bindCredential=${ldapAdminPass}" >> "${destEtcCASDir}"/management.properties
 	
 	# Last, cleanup
 fi
