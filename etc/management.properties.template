@@ -1,99 +1,83 @@
 #####
 # Remember, all the properties from registered cas prefixes are validated.
 # So, we have to create properties in custom prefixes like "custom." ,
-# instead of starting with "cas." or similar, as unkown keys are rejected.
+# instead of starting with "mgmt." or similar, as unkown keys are rejected.
 #####
+# https://apereo.github.io/cas-management/5.3.x/installation/Configuration-Properties.html
 
 # unofficial keys
 custom.domainName=rd-connect.eu
 custom.hostName=rdconnectcas.${custom.domainName}
 custom.serverProtocol=https
 custom.serverPort=9443
-# /unofficial keys
-cas.server.name=${custom.serverProtocol}://${custom.hostName}:${custom.serverPort}
-# unofficial keys
 custom.context=/cas
 # /unofficial keys
-cas.server.prefix=${custom.serverName}${custom.context}
+mgmt.serverName=${custom.serverProtocol}://${custom.hostName}:${custom.serverPort}
+cas.server.name=${mgmt.serverName}
+cas.server.prefix=${mgmt.serverName}${custom.context}
 
-cas.mgmt.adminRoles[0]=ROLE_ADMIN
-cas.mgmt.userPropertiesFile=file:${custom.resourcesDir}/users.properties
-
-# Update this URL to point at server running this management app
-cas.mgmt.serverName=${cas.server.name}
+mgmt.adminRoles[0]=ROLE_ADMIN
+mgmt.userPropertiesFile=file:${custom.resourcesDir}/users.properties
 
 server.context-path=/cas-management
 server.port=${custom.serverPort}
 
-cas.mgmt.authzAttributes[0]=memberOf
-
-##########################
-# Attributes not being #
-# populated from CAS #
-####################
-
-# cas.authn.attributeRepository.stub.attributes.uid=uid
-# cas.authn.attributeRepository.stub.attributes.givenName=givenName
-# cas.authn.attributeRepository.stub.attributes.eppn=eppn
+mgmt.authzAttributes[0]=memberOf
 
 ######################
 # LDAP Authorization #
 ######################
 
 # Enable authorization based on groups
-# cas.mgmt.ldap.ldapAuthz.groupAttribute=
-# cas.mgmt.ldap.ldapAuthz.groupPrefix=
-cas.mgmt.ldap.ldapAuthz.groupFilter=(&(cn=admin)(member={0}))
-cas.mgmt.ldap.ldapAuthz.groupBaseDn=ou=groups,dc=rd-connect,dc=eu
+# mgmt.ldap.ldapAuthz.groupAttribute=
+# mgmt.ldap.ldapAuthz.groupPrefix=
+mgmt.ldap.ldapAuthz.groupFilter=(&(cn=admin)(member={0}))
+mgmt.ldap.ldapAuthz.groupBaseDn=ou=groups,dc=rd-connect,dc=eu
 
 # Enable authorization based on attributes and roles
-# cas.mgmt.ldap.ldapAuthz.rolePrefix=ROLE_
-# cas.mgmt.ldap.ldapAuthz.roleAttribute=uugid
+# mgmt.ldap.ldapAuthz.rolePrefix=ROLE_
+# mgmt.ldap.ldapAuthz.roleAttribute=uugid
 
-# cas.mgmt.ldap.ldapAuthz.searchFilter=cn={user}
-# cas.mgmt.ldap.ldapAuthz.baseDn=
+mgmt.ldap.ldapAuthz.searchFilter=uid={user}
+mgmt.ldap.ldapAuthz.baseDn=ou=services,dc=rd-connect,dc=eu
 
 ######################################
 # LDAP Storage of service management #
 ######################################
 
-cas.mgmt.ldap.ldapUrl=ldaps://ldap.${custom.domainName}
-cas.mgmt.ldap.useSsl=true
-cas.mgmt.ldap.useStartTls=false
+mgmt.ldap.ldapUrl=ldaps://ldap.${custom.domainName}
+mgmt.ldap.useSsl=true
+mgmt.ldap.useStartTls=false
 # Manager credentials to bind; used for searches and updates.
-cas.mgmt.ldap.bindDn=cn=admin,dc=rd-connect,dc=eu
+mgmt.ldap.bindDn=cn=admin,dc=rd-connect,dc=eu
 # Change this fake password by the real one used in the setup environment
-cas.mgmt.ldap.bindCredential=ChangeIt!!!
+mgmt.ldap.bindCredential=ChangeIt!!!
 
-cas.mgmt.ldap.baseDn=ou=services,dc=rd-connect,dc=eu
-cas.mgmt.ldap.subtreeSearch=true
-cas.mgmt.ldap.userFilter=uid={user}
-cas.mgmt.ldap.allowMultipleResults=false
+mgmt.ldap.allowMultipleDns=false
 
 # == Connection pooling settings ==
-cas.mgmt.ldap.minPoolSize=0
-cas.mgmt.ldap.maxPoolSize=10
-cas.mgmt.ldap.blockWaitTime=PT3S
-cas.mgmt.ldap.validateOnCheckin=false
-cas.mgmt.ldap.validateOnCheckout=false
-cas.mgmt.ldap.validatePeriodically=true
-cas.mgmt.ldap.validatePeriod=PT5M
-cas.mgmt.ldap.prunePeriod=PT2H
-cas.mgmt.ldap.idleTime=PT10M
+mgmt.ldap.minPoolSize=0
+mgmt.ldap.maxPoolSize=10
+mgmt.ldap.blockWaitTime=PT3S
+mgmt.ldap.validateOnCheckout=false
+mgmt.ldap.validatePeriodically=true
+mgmt.ldap.validatePeriod=PT5M
+mgmt.ldap.prunePeriod=PT2H
+mgmt.ldap.idleTime=PT10M
 
-cas.mgmt.ldap.trustCertificates=file:${custom.resourcesDir}/cacert.pem
-
+mgmt.ldap.trustCertificates=file:${custom.resourcesDir}/cacert.pem
 
 
-# cas.mgmt.ldap.connectionStrategy=
-# cas.mgmt.ldap.providerClass=org.ldaptive.provider.unboundid.UnboundIDProvider
-# cas.mgmt.ldap.connectTimeout=5000
-# cas.mgmt.ldap.keystore=
-# cas.mgmt.ldap.keystorePassword=
-# cas.mgmt.ldap.keystoreType=JKS|JCEKS|PKCS12
-# cas.mgmt.ldap.poolPassivator=NONE|CLOSE|BIND
-# cas.mgmt.ldap.validateTimeout=5000
-# cas.mgmt.ldap.failFast=true
-# cas.mgmt.ldap.idleTime=500
+
+# mgmt.ldap.connectionStrategy=
+# mgmt.ldap.providerClass=org.ldaptive.provider.unboundid.UnboundIDProvider
+# mgmt.ldap.connectTimeout=5000
+# mgmt.ldap.keystore=
+# mgmt.ldap.keystorePassword=
+# mgmt.ldap.keystoreType=JKS|JCEKS|PKCS12
+# mgmt.ldap.poolPassivator=NONE|CLOSE|BIND
+# mgmt.ldap.validateTimeout=5000
+# mgmt.ldap.failFast=true
+# mgmt.ldap.idleTime=500
 
 logging.config=file:${custom.resourcesDir}/log4j2-management.xml
