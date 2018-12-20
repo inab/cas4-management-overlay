@@ -82,7 +82,7 @@
 
     <properties>
         <cas-mgmt.version>5.3.6</cas-mgmt.version>     
-        <cas.version>5.3.6</cas.version>
+        <cas.version>5.3.5</cas.version>
         <springboot.version>1.5.14.RELEASE</springboot.version>
         <mainClassName>org.springframework.boot.loader.WarLauncher</mainClassName>
         <isExecutable>false</isExecutable>
