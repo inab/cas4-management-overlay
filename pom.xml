@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-management-webapp-support-ldap</artifactId>
-            <version>${cas.version}</version>
+            <version>${cas-mgmt.version}</version>
         </dependency>
     </dependencies>
 
