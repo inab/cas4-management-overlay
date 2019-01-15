@@ -4,6 +4,7 @@
 # instead of starting with "mgmt." or similar, as unkown keys are rejected.
 #####
 # https://apereo.github.io/cas-management/5.3.x/installation/Configuration-Properties.html
+# https://groups.google.com/a/apereo.org/forum/#!topic/cas-user/3znnll3K4Y8
 
 # unofficial keys
 custom.domainName=rd-connect.eu
@@ -14,8 +15,8 @@ custom.context=/cas
 # /unofficial keys
 mgmt.serverName=${custom.serverProtocol}://${custom.hostName}:${custom.serverPort}
 # Commented meanwhile it is fixed the bug
-#cas.server.name=${mgmt.serverName}
-#cas.server.prefix=${mgmt.serverName}${custom.context}
+cas.server.name=${mgmt.serverName}
+cas.server.prefix=${mgmt.serverName}${custom.context}
 
 mgmt.adminRoles[0]=ROLE_ADMIN
 mgmt.userPropertiesFile=file:${custom.resourcesDir}/users.properties
@@ -25,26 +26,39 @@ server.port=${custom.serverPort}
 
 mgmt.authzAttributes[0]=memberOf
 
+authn.attributeRepository.attributes.uid=uid
+authn.attributeRepository.attributes.memberOf=memberOf
+authn.attributeRepository.attributes.dn=distinguishedName
+authn.attributeRepository.attributes.mail=email
+authn.attributeRepository.attributes.cn=fullname
+authn.attributeRepository.attributes.givenName=givenname
+authn.attributeRepository.attributes.sn=surname
+authn.attributeRepository.attributes.disabledAccount=isDisabled
+authn.attributeRepository.attributes.userClass=userCategory
+
+
 ######################
 # LDAP Authorization #
 ######################
+# https://apereo.github.io/cas-management/5.3.x/installation/Configuration-Properties.html#ldap-authorization
 
 # Enable authorization based on groups
-# mgmt.ldap.ldapAuthz.groupAttribute=
-# mgmt.ldap.ldapAuthz.groupPrefix=
+mgmt.ldap.ldapAuthz.groupAttribute=cn
+#mgmt.ldap.ldapAuthz.groupPrefix=ROLE_
 mgmt.ldap.ldapAuthz.groupFilter=(&(cn=admin)(member={0}))
 mgmt.ldap.ldapAuthz.groupBaseDn=ou=groups,dc=rd-connect,dc=eu
 
 # Enable authorization based on attributes and roles
-# mgmt.ldap.ldapAuthz.rolePrefix=ROLE_
-# mgmt.ldap.ldapAuthz.roleAttribute=uugid
+#mgmt.ldap.ldapAuthz.rolePrefix=ROLE_
+mgmt.ldap.ldapAuthz.roleAttribute=memberOf
 
-mgmt.ldap.ldapAuthz.searchFilter=uid={user}
-mgmt.ldap.ldapAuthz.baseDn=ou=services,dc=rd-connect,dc=eu
+mgmt.ldap.ldapAuthz.searchFilter=(&(|(uid={0})(mail={0}))(disabledAccount=FALSE)(acceptedGDPR=*)(!(acceptedGDPR=GDPR)))
+mgmt.ldap.ldapAuthz.baseDn=ou=people,dc=rd-connect,dc=eu
 
 ######################################
 # LDAP Storage of service management #
 ######################################
+# https://apereo.github.io/cas-management/5.3.x/installation/Configuration-Properties.html#ldap
 
 mgmt.ldap.ldapUrl=ldaps://ldap.${custom.domainName}
 mgmt.ldap.useSsl=true
